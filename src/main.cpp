@@ -1,22 +1,14 @@
 #include <iostream>
 #include <string>
 
-#include <curl/curl.h>
+#include <cpr/cpr.h>
 
-#include "data_fetcher.h"
 #include "json.h"
 #include "products.h"
 
 int main(int argc, char *argv[])
 {
-	auto curl_initializer = CurlInitializerRAII();
-
-	std::vector<uint8_t> body;
-	if (!fetch_data("https://dummyjson.com/products", body))
-	{
-		std::cerr << "Could not fetch data" << std::endl;
-		return 1;
-	}
+	std::string body = Get(cpr::Url{"https://dummyjson.com/products"}).text;
 
 	auto body_str = std::string((const char *)body.data(), body.size());
 
